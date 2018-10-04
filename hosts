@@ -1,0 +1,8 @@
+[bwcloud]
+193.196.36.145
+
+[digitalocean]
+46.101.225.184
+
+[all:vars]
+ansible_ssh_user=root

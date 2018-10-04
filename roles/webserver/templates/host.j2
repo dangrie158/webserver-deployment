@@ -1,0 +1,29 @@
+server {
+	listen 80;
+
+	server_name {{ host.name }} www.{{ host.name }};
+	return 301 https://$server_name$request_uri;
+}
+
+server {
+	listen 443 ssl;
+	
+	server_name {{ host.name }} www.{{ host.name }};
+
+	include snippets/ssl-{{ host.name }}.conf;
+	include snippets/ssl-params.conf;
+
+	root /var/www/{{ host.name }};
+
+	index index.html;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+	location ~ /.well-known {
+                allow all;
+        }
+
+}

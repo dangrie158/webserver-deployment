@@ -1,0 +1,7 @@
+---
+- name: Install packages
+  apt:
+    pkg: '{{ item }}'
+    state: present
+    update_cache: no
+  loop: '{{ default_packages }}'

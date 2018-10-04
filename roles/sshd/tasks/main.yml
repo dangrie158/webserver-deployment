@@ -1,0 +1,17 @@
+---
+# tasks file for snmp
+
+- name: Install sshd
+  apt:
+    pkg: openssh-server
+    state: present
+    update_cache: true
+
+- name: Copy sshd config file
+  copy:
+    src: "sshd_config"
+    dest: "/etc/ssh/sshd_config"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart SSHD

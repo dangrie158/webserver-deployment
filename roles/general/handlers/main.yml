@@ -1,0 +1,10 @@
+---
+- name: Reboot Machine
+  shell: reboot
+  ignore_errors: yes
+  notify: Wait for Host
+  listen: Reboot
+  
+- name: Wait for Host
+  local_action: wait_for host={{ ansible_default_ipv4.address }} port=22 state=started delay=30 timeout=120
+  listen: Reboot

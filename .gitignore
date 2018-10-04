@@ -1,0 +1,3 @@
+.direnv/**
+*.retry
+*.DS_Store

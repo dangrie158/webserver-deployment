@@ -1,0 +1,17 @@
+---
+default_packages:
+  - rsync
+  - git
+  - iotop
+  - sudo
+  - ca-certificates
+  - gnupg2
+  - git
+  - neovim
+  - software-properties-common
+  - direnv
+  - zsh
+  - htop
+  - iftop 
+  - tmux
+  - net-tools # for netstat

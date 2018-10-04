@@ -1,0 +1,6 @@
+- hosts: bwcloud
+
+  roles: 
+    - general
+    - sshd
+    - webserver

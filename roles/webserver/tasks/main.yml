@@ -1,0 +1,45 @@
+---
+# tasks file for reverse-proxy
+- name: Install Certbot
+  apt:
+    pkg: python-certbot-nginx
+    state: present
+    update_cache: true
+
+- name: Install Nginx
+  apt:
+    pkg: nginx
+    state: present
+    update_cache: true
+  notify:
+    - Start Nginx
+
+- name: Disable Default Site Configuration
+  file:
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Restart Nginx
+
+- name: Add SSL Param Config
+  register: siteconfig
+  template:
+    src: ssl-params.conf.j2
+    dest: '/etc/nginx/snippets/ssl-params.conf' 
+    owner: root
+    group: root
+  notify:
+    - Restart Nginx
+
+- name: Add all host configurations
+  include_tasks: host.yml
+  loop: "{{ webhosts }}"
+  loop_control:
+    loop_var: host
+
+- name: Add certbot renew to crontab
+  cron:
+    name: certbot-renew
+    hour: 2
+    minute: 30
+    job: /usr/bin/certbot renew --noninteractive --renew-hook "/bin/systemctl Restart nginx" >> /var/log/le-renew.log

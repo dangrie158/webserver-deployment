@@ -1,0 +1,8 @@
+---
+# vars file for reverse-proxy
+certbot_email: dangrie158@gmail.com
+webhosts: 
+  - name: nupo-artworks.de
+    owner: dangrie158
+  - name: naehcram.de
+    owner: craminski

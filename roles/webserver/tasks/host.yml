@@ -1,0 +1,40 @@
+
+- name: "Request Certificate for {{ host.name }}"
+  shell: 'certbot certonly --authenticator standalone --agree-tos -m {{ certbot_email }} --pre-hook "systemctl stop nginx" --post-hook "systemctl start nginx" -d {{ host.name }}'
+  args:
+    creates: '/etc/letsencrypt/live/{{ host.name }}/privkey.pem'
+
+- name: "Add Site Config for {{ host.name }}"
+  template:
+    src: host.j2
+    dest: '/etc/nginx/sites-available/{{ host.name }}.conf' 
+    owner: root
+    group: root
+
+- name: "Add SSL File Config for {{ host.name }}"
+  template:
+    src: ssl.conf.j2
+    dest: '/etc/nginx/snippets/ssl-{{ host.name }}.conf' 
+    owner: root
+    group: root
+
+- name: "Add the user {{ host.name }} for {{ host.name }}"
+  user:
+    name: "{{ host.name }}"
+    state: present
+
+- name: "Create webroot for {{ host.name }}"
+  file:
+    path: "/var/www/{{ host.name }}"
+    state: directory
+    owner: "{{ host.owner }}"
+    group: "{{ host.owner }}"
+    mode: 0755
+
+- name: "Enable Site Config for {{ host.name }}"
+  file:
+    src: '/etc/nginx/sites-available/{{ host.name }}.conf'
+    dest: '/etc/nginx/sites-enabled/{{ host.name }}.conf'
+    state: link
+  notify:
+    - Restart Nginx
