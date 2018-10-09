@@ -21,6 +21,11 @@
   notify:
     - Restart Nginx
 
+- name: Generate 4096 bit DH Params 
+  openssl_dhparam:
+    path: /etc/ssl/certs/dhparam.pem
+    size: 4096
+
 - name: Add SSL Param Config
   register: siteconfig
   template:

@@ -20,7 +20,7 @@
 
 - name: "Add the user {{ host.name }} for {{ host.name }}"
   user:
-    name: "{{ host.name }}"
+    name: "{{ host.owner }}"
     state: present
 
 - name: "Create webroot for {{ host.name }}"
