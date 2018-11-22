@@ -18,10 +18,19 @@
     owner: root
     group: root
 
+
 - name: "Add the user {{ host.name }} for {{ host.name }}"
   user:
     name: "{{ host.owner }}"
     state: present
+
+- name: "Add the SSH public key for {{ host.name }}"
+  authorized_key:
+    user: '{{ host.owner }}'
+    key: '{{ item }}'
+    state: present
+  with_file:
+    - 'ssh_keys/{{ host.owner }}'
 
 - name: "Create webroot for {{ host.name }}"
   file:
