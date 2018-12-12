@@ -39,6 +39,16 @@
     owner: "{{ host.owner }}"
     group: "{{ host.owner }}"
     mode: 0755
+  when: host.rootlink is undefined
+
+- name: "linking webroot for {{ host.name }}"
+  file:
+    src: "/var/www/{{ host.rootlink }}"
+    dest: "/var/www/{{ host.name }}"
+    owner: "{{ host.owner }}"
+    group: "{{ host.owner }}"
+    state: link
+  when: host.rootlink is defined
 
 - name: "Enable Site Config for {{ host.name }}"
   file:
