@@ -2,7 +2,10 @@
 # vars file for reverse-proxy
 certbot_email: dangrie158@gmail.com
 webhosts: 
+  - name: danielgriesshaber.de
+    owner: dangrie158
   - name: nupo-artworks.de
     owner: dangrie158
+    rootlink: danielgriesshaber.de
   - name: naehcram.de
     owner: craminski
